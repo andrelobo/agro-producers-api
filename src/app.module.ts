@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
 import { ProducersModule } from './producers/producers.module';
 
 @Module({
@@ -18,7 +22,14 @@ import { ProducersModule } from './producers/producers.module';
       autoLoadEntities: true,
       synchronize: true,
     }),
+    PassportModule,
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '60m' },
+    }),
     ProducersModule,
+    AuthModule,
   ],
+  providers: [AuthService],
 })
 export class AppModule {}
