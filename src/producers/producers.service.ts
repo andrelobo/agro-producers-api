@@ -7,6 +7,13 @@ import { CreateProducerDto } from './dto/create-producer.dto';
 
 @Injectable()
 export class ProducersService {
+  update(id: number, createProducerDto: CreateProducerDto): Promise<Producer> {
+    return this.producersRepository.preload({
+      id,
+      ...createProducerDto,
+    });
+  }
+
   constructor(
     @InjectRepository(Producer)
     private producersRepository: Repository<Producer>,
@@ -44,20 +51,24 @@ export class ProducersService {
     }
 
     const producer = this.producersRepository.create(createProducerDto);
-    return this.producersRepository.save(producer);
+    return this.producersRepository.save(producer).catch((err) => {
+      throw new BadRequestException(err.message);
+    });
   }
-
-  // Atualizar similar para as validações
 
   findAll(): Promise<Producer[]> {
     return this.producersRepository.find();
   }
 
   findOne(id: number): Promise<Producer> {
-    return this.producersRepository.findOne({ where: { id } });
+    return this.producersRepository.findOne({ where: { id } }).catch((err) => {
+      throw new BadRequestException(err.message);
+    });
   }
 
   async remove(id: number): Promise<void> {
-    await this.producersRepository.delete(id);
+    await this.producersRepository.delete(id).catch((err) => {
+      throw new BadRequestException(err.message);
+    });
   }
 }
