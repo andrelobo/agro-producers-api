@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { ProducersModule } from './producers/producers.module';
+import { UsersModule } from './users/users.module'; // Import UsersModule
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { ProducersModule } from './producers/producers.module';
     }),
     ProducersModule,
     AuthModule,
+    UsersModule, // Ensure UsersModule is imported here
   ],
   providers: [AuthService],
 })

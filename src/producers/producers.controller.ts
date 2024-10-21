@@ -8,10 +8,13 @@ import {
   Put,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ProducersService } from './producers.service';
 import { CreateProducerDto } from './dto/create-producer.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@ApiTags('producers')
+@ApiBearerAuth()
 @Controller('producers')
 export class ProducersController {
   constructor(private readonly producersService: ProducersService) {}
