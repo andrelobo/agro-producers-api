@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as cpfCnpj from 'cpf-cnpj-validator';
 import { Producer } from './entities/producer.entity';
-import { CreateProducerDto } from '../dto/create-producer.dto';
+import { CreateProducerDto } from '../producers/dto/create-producer.dto';
 
 @Injectable()
 export class ProducersService {
