@@ -6,7 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { ProducersModule } from './producers/producers.module';
-import { UsersModule } from './users/users.module'; // Import UsersModule
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -20,8 +20,11 @@ import { UsersModule } from './users/users.module'; // Import UsersModule
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      autoLoadEntities: true,
-      synchronize: true,
+      autoLoadEntities: true, // Carrega automaticamente todas as entidades
+      synchronize: false, // Desativa a sincronização automática
+      migrations: ['dist/migrations/*.js'], // Caminho para as migrações
+      migrationsRun: true, // Executa migrações automaticamente ao iniciar
+      entities: [__dirname + '/**/*.entity{.ts,.js}'], // Especifica as entidades explicitamente
     }),
     PassportModule,
     JwtModule.register({
@@ -30,7 +33,7 @@ import { UsersModule } from './users/users.module'; // Import UsersModule
     }),
     ProducersModule,
     AuthModule,
-    UsersModule, // Ensure UsersModule is imported here
+    UsersModule,
   ],
   providers: [AuthService],
 })
