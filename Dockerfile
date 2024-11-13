@@ -16,5 +16,10 @@ COPY . .
 # Exponha a porta que a aplicação vai rodar
 EXPOSE 3000
 
+COPY ./src/migrations ./dist/migrations
+
+# Comando para executar as migrações e iniciar o aplicativo
+CMD ["sh", "-c", "npm run migration:run && npm run start:prod"]
+
 # Comando para rodar a aplicação
 CMD ["yarn", "start:dev"]
